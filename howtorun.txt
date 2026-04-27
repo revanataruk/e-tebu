@@ -1,0 +1,54 @@
+Bagian 1: Migrasi Database (SQL)
+----------------------------------
+Langkah-langkah untuk memindahkan database dari satu laptop ke laptop lain:
+
+1. Di Laptop Lama (Ekspor):
+   - Buka Laragon dan klik tombol 'Database' (HeidiSQL).
+   - Klik kanan pada nama database 'e_tebu_db'.
+   - Pilih menu 'Export database as SQL'.
+   - Pada bagian 'Output', pilih 'Single .sql file'.
+   - Klik 'Export' dan simpan file tersebut (database_backup.sql).
+
+2. Di Laptop Baru (Impor):
+   - Pastikan Laragon sudah terinstall dan berjalan (Klik Start All).
+   - Buka HeidiSQL, klik kanan di area list database -> 'Create new' -> 'Database'.
+   - Beri nama persis: 'e_tebu_db'.
+   - Klik menu 'File' -> 'Load SQL file' -> Pilih file 'e_tebu_backup.sql' tadi.
+   - Tekan tombol F9 atau klik ikon 'Execute' (panah biru) untuk menjalankan impor.
+
+
+Bagian 2: Menjalankan Web E-Tebu
+----------------------------------
+Langkah-langkah untuk menjalankan project CodeIgniter 4 di laptop baru:
+
+git clone https://github.com/revanataruk/e-tebu.git
+composer install
+php spark serve
+
+1. Penempatan Folder:
+   - Copy folder project 'e-tebu' ke dalam direktori Laragon (biasanya di C:\laragon\www\).
+   - Struktur akhir harus: C:\laragon\www\e-tebu\
+
+2. Konfigurasi Environment (.env):
+   - Buka folder 'e-tebu' menggunakan VS Code atau Notepad.
+   - Pastikan file bernama '.env' (jika masih bernama 'env', ubah namanya/rename menjadi '.env').
+   - Cek baris database, pastikan sesuai:
+     database.default.hostname = localhost
+     database.default.database = e_tebu_db
+     database.default.username = root
+     database.default.password = 
+   - Cek app.baseURL, pastikan sesuai dengan domain Laragon:
+     app.baseURL = 'http://e-tebu.test/'
+
+3. Menjalankan Server:
+   - Buka aplikasi Laragon.
+   - Klik tombol 'Stop' (jika sedang jalan), lalu klik 'Start All'.
+   - Laragon akan mendeteksi folder baru dan membuat 'Virtual Host' secara otomatis.
+
+4. Akses Browser:
+   - Buka browser (Chrome/Edge).
+   - Ketikkan alamat: http://e-tebu.test
+   - Jika muncul halaman login, gunakan username 'admin' dan password '12345' (sesuai data simulasi).
+
+----------------------------------
+Catatan: Jika muncul error 'Class Dompdf not found', pastikan Anda sudah menjalankan 'composer install' atau 'composer update' di dalam terminal folder project tersebut.
